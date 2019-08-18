@@ -1,0 +1,5 @@
+- [tar, '> 2.2.2']
+- [lodash.mergewith, '> 4.6.2']
+- [lodash, '> 4.17.15']
+- [lodash-es, '> 4.17.15']
+- [fstream, '> 1.0.12']

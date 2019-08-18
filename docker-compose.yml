@@ -1,0 +1,13 @@
+version: '2'
+services:
+  app:
+    build:
+      context: .
+    user: root
+    volumes:
+      - '../360-content-pass-admin-frontend:/service/repo'
+      - './update-script.rb:/opt/update-script.rb'
+      - './config.yml:/opt/config.yml'
+      - './Gemfile:/opt/Gemfile'
+      - './Gemfile.lock:/opt/Gemfile.lock'
+      - '~/.npmrc:/service/.npmrc'
