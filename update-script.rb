@@ -6,6 +6,10 @@ require "dependabot/omnibus"
 
 require "pathname"
 require "yaml"
+require 'rubygems'
+require 'git'
+
+
 
 ####### Monkey patching to get reading source files from disk
 module Dependabot
@@ -33,13 +37,15 @@ end
 REPO_DIRECTORY = "/service/repo"
 PACKAGE_MANAGER = "npm_and_yarn"
 
-Dependency = Struct.new(:name, :ignore_versions)
+Dependency = Struct.new(:name, :ignore_versions, :commit_message)
 
 config = YAML.load(File.read("config.yml"))
 
-dependencies = config.map do |(name, ignore_versions)|
-  Dependency.new(name, ignore_versions)
+dependencies = config.map do |(name, ignore_versions, commit_message)|
+  Dependency.new(name, ignore_versions, commit_message)
 end
+
+git = Git.open('/service/repo')
 
 class Source
   attr_accessor :provider, :repo, :directory, :branch
@@ -105,7 +111,7 @@ def updateDependency(dependency_name, ignore_versions)
     updated_files = updater.updated_dependency_files
   rescue Dependabot::NpmAndYarn::FileUpdater::NoChangeError
     puts "    SKIPPING #{dependency_name} since no updates were found."
-    return
+    return false
   end
 
   updated_files.each do |file|
@@ -116,9 +122,15 @@ def updateDependency(dependency_name, ignore_versions)
       f.write(file.content)
     end
   end
+
+  return true
 end
 
 dependencies.each do |dependency|
-  updateDependency(dependency.name, dependency.ignore_versions)
-  #TODO create commit here
+  updatedFiles = updateDependency(dependency.name, dependency.ignore_versions)
+
+  if updatedFiles
+    git.add
+    git.commit(dependency.commit_message)
+  end
 end

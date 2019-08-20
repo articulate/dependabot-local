@@ -11,3 +11,4 @@ services:
       - './Gemfile:/opt/Gemfile'
       - './Gemfile.lock:/opt/Gemfile.lock'
       - '~/.npmrc:/service/.npmrc'
+      - '~/.gitconfig:/etc/gitconfig'
