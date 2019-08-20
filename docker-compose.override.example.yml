@@ -1,0 +1,5 @@
+version: '2'
+services:
+  app:
+    volumes:
+      - '../360-content-pass-admin-frontend:/service/repo'
