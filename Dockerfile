@@ -25,4 +25,5 @@ RUN cp -r $(bundle show dependabot-npm_and_yarn)/helpers $DEPENDABOT_NATIVE_HELP
 
 RUN $DEPENDABOT_NATIVE_HELPERS_PATH/npm_and_yarn/helpers/build $DEPENDABOT_NATIVE_HELPERS_PATH/npm_and_yarn
 
-COPY update-script.rb .
+COPY update.rb Gemfile Gemfile.lock ./
+COPY lib ./lib

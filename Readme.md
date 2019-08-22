@@ -15,17 +15,24 @@ need this utility. :)
 ### Setup config.yml
 Defines the dendencies/sub-dependencies to update, the max version to update to and a commit message to use if there are changes
   - Use config.example.yml as an example
-  - Example config entry `[tar, '> 2.2.2', "[Security] Bump tar from 2.2.1 to 2.2.2\nBumps [tar](https://github.com/npm/node-tar) from 2.2.1 to 2.2.2. **This update includes security fixes.** \n- [Release notes](https://github.com/npm/node-tar/releases)\n- [Commits](npm/node-tar@v2.2.1...v2.2.2)"]`
-    - the first item in the array is the name of the
-      dependency/sub-dependency
-    - The second item defines a rule for versions that will be ignored.
-      Above says the max version to upgrade to is `2.2.2`.
-    - The third items is the commit message that will be used if changes
-      to the dependency are made.
+    - `package_manager` defines the package manager the repo we are
+      updating utilizes.  Informs dependabot which files to look for.
+      Currently supports `npm_and_yarn` (node projects) and `bundler`
+      (ruby projects).
+    - `dependency_updates` defines a list of dependencies/sub-dependencies
+       and the information needed to update them.
+      - `name` is the name of the dependency/sub-dependency
+      - `ignore_versions` defines a rule for versions that will be ignored.
+        e.g. `> 2.2.2` says the max version to upgrade to is `2.2.2`.
+      - `commit_message` is the commit message that will be used if changes
+        to the dependency are made.
+
+`config.yml` is volumed into the container from the base directory of
+this project.
 
 ### Executing
   - Note: make sure the repo mounted at /service/repo is on a new branch based on the latest master.
-  - `docker-compose run --rm app ruby update-script.rb`
+  - `docker-compose run --rm app ruby update.rb`
   - Example output:
 ```
 Updating tar.  Ignoring versions > 2.2.2
