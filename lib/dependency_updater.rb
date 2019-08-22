@@ -9,6 +9,9 @@ require 'git'
 
 require_relative './monkey_patch_file_fetchers.rb'
 
+class NoChangeError < StandardError
+end
+
 Source = Struct.new(:provider, :directory)
 
 class DependencyUpdater
@@ -81,8 +84,10 @@ class DependencyUpdater
 
     begin
       updated_files = updater.updated_dependency_files
-    rescue Dependabot::NpmAndYarn::FileUpdater::NoChangeError
-      puts "    SKIPPING #{dependency_name} since no updates were found."
+
+      raise NoChangeError if updated_files.empty?
+    rescue NoChangeError, Dependabot::NpmAndYarn::FileUpdater::NoChangeError
+      puts "    ** Skipping #{dependency_name} since no updates were found."
       return false
     end
 
