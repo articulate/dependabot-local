@@ -6,12 +6,12 @@ into one pull request.  Unfortunately this functionality is not yet built into
 dependabot, but has been requested so hopefully someday soon we won't
 need this utility. :)
 
-Currently it supports ruby and node projects, but could be updated to
+Currently it supports `ruby` and `javascript` projects, but could be updated to
 work for any of the languages that dependabot supports.
-See this [section](#Adding-support-for-another-language's-package-manager) below for more details
+See this [section](#Adding-support-for-another-languages-package-manager) below for more details
 
 ## Instructions
-### build the image
+### Build the image
   - `docker-compose build --pull --no-cache`
 
 ### Setup docker-compose.override.yml
@@ -24,8 +24,7 @@ Defines the dendencies/sub-dependencies to update, the max version to update to 
   - Use config.example.yml as an example
     - `package_manager` defines the package manager the repo we are
       updating utilizes.  Informs dependabot which files to look for.
-      Currently supports `npm_and_yarn` (node projects) and `bundler`
-      (ruby projects).
+      Currently supports `npm_and_yarn` and `bundler`.
     - `dependency_updates` defines a list of dependencies/sub-dependencies
        and the information needed to update them.
       - `name` is the name of the dependency/sub-dependency
@@ -37,22 +36,15 @@ Defines the dendencies/sub-dependencies to update, the max version to update to 
 `config.yml` is volumed into the container from the base directory of
 this project.
 
-### Executing
+### Running
   - Note: make sure the repo mounted at /service/repo is on a new branch based on the latest master.
   - `docker-compose run --rm app`
   - Example output:
 ```
 Updating tar.  Ignoring versions > 2.2.2
     - Updating /service/repo/yarn.lock
-Updating lodash.mergewith.  Ignoring versions > 4.6.2
-    - Updating /service/repo/yarn.lock
-Updating lodash.  Ignoring versions > 4.17.15
-    - Updating /service/repo/package.json
-    - Updating /service/repo/yarn.lock
-Updating lodash-es.  Ignoring versions > 4.17.15
-    - Updating /service/repo/yarn.lock
 Updating fstream.  Ignoring versions > 1.0.12
-    SKIPPING fstream since no updates were found.
+    ** Skipping fstream since no updates were found.
 ```
 
 ### Checking on what was updated
@@ -64,7 +56,7 @@ Updating fstream.  Ignoring versions > 1.0.12
         were 4 commits `git diff HEAD~4`
 
 ### Finishing up
-Push up the changes made to your repo and create PR.
+Push up the changes made to your repo and create a pull request.
 
 ## Adding support for another language's package manager
 First you need to add the native helper gem for the package manager to
