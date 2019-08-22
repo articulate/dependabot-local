@@ -1,8 +1,8 @@
 # Dependabot local
 
 ## Description
-This is a utility that can be used to combine multiple dependabot Pull Requests
-into one Pull Request.  Unfortunately this functionality is not yet built into
+This is a utility that can be used to combine multiple dependabot pull requests
+into one pull request.  Unfortunately this functionality is not yet built into
 dependabot, but has been requested so hopefully someday soon we won't
 need this utility. :)
 
@@ -16,7 +16,8 @@ See this [section](#Adding-support-for-another-language's-package-manager) below
 
 ### Setup docker-compose.override.yml
   - cp docker-compose.override.example.yml docker-compose.override.yml
-  - Setup a volume mapped to `/service/repo` e.g. `../360-content-pass-admin-frontend:/service/repo`
+  - Setup a volume mapped to `/service/repo` e.g.
+    `/your/local/repo/path/here:/service/repo`
 
 ### Setup config.yml
 Defines the dendencies/sub-dependencies to update, the max version to update to and a commit message to use if there are changes
@@ -38,7 +39,7 @@ this project.
 
 ### Executing
   - Note: make sure the repo mounted at /service/repo is on a new branch based on the latest master.
-  - `docker-compose run --rm app ruby update.rb`
+  - `docker-compose run --rm app`
   - Example output:
 ```
 Updating tar.  Ignoring versions > 2.2.2
