@@ -1,8 +1,14 @@
+# Dependabot local
+
 ## Description
 This is a utility that can be used to combine multiple dependabot Pull Requests
 into one Pull Request.  Unfortunately this functionality is not yet built into
 dependabot, but has been requested so hopefully someday soon we won't
 need this utility. :)
+
+Currently it supports ruby and node projects, but could be updated to
+work for any of the languages that dependabot supports.
+See this [section](#Adding-support-for-another-language's-package-manager) below for more details
 
 ## Instructions
 ### build the image
@@ -58,3 +64,16 @@ Updating fstream.  Ignoring versions > 1.0.12
 
 ### Finishing up
 Push up the changes made to your repo and create PR.
+
+## Adding support for another language's package manager
+First you need to add the native helper gem for the package manager to
+the Gemfile. A list can be found at https://rubygems.org/search?utf8=%E2%9C%93&query=dependabot-
+  - edit `Gemfile` adding the new dependency.  e.g. `gem dependabot-dep`
+    for go's package manager
+  - `docker-compose build --pull --no-cache`
+
+Then you'll need to copy the native helper files and build them as
+described here https://github.com/dependabot/dependabot-script#native-helpers.
+
+Dockerfile currenly contains the necessary commands to get the
+`npm_and_yarn` native helper setup
